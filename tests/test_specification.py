@@ -7,7 +7,7 @@ from pydantic import ValidationError
 
 from backend.cards.specification import DesignSpec, RuleSpecificationProvider
 from backend.main import create_app
-from backend.test_app import wait_run
+from tests.test_app import wait_run
 
 PROVIDER = RuleSpecificationProvider()
 RAMADAN = 'Create a luxurious premium Ramadan card with a midnight-blue background, golden crescent, glowing stars, and sophisticated Islamic geometric ornaments.'

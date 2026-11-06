@@ -15,6 +15,7 @@ from backend.router import Route, route_prompt
 from backend.cards.specification import Interpretation, RuleSpecificationProvider
 from backend.cards.render import generate_card, DELIVERY
 from backend.video import plan_video, run_agent
+from backend.media_tools import prepare_card_art, choose_presenter_engine, image_model_ready
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -42,10 +43,11 @@ class Run(BaseModel):
     events: list[Event]
     design: Interpretation | None = None
     video_plan: dict | None = None
+    generation: dict | None = None
 
 
 def create_app(db_path: str | Path | None = None, output_root: str | Path | None = None) -> FastAPI:
-    app = FastAPI(title='Promptelier', version='0.3.0')
+    app = FastAPI(title='Promptelier', version='0.4.0')
     database = Path(db_path or os.getenv('PROMPTELIER_DB', str(ROOT / 'data/promptelier.sqlite3')))
     database.parent.mkdir(parents=True, exist_ok=True)
     outputs = Path(output_root or os.getenv('PROMPTELIER_OUTPUTS',str(ROOT/'outputs')))
@@ -87,7 +89,8 @@ def create_app(db_path: str | Path | None = None, output_root: str | Path | None
     @app.get('/api/health')
     def health():
         return {'status': 'ok', 'phase': 4, 'milestone': 'local-production', 'router': 'rules', 'generation_available': True, 'card_specification_available': True,
-                'agent':'symbolic inspect/choose/repair policy', 'video_presenter':'illustrated fictional host'}
+                'agent':'symbolic inspect/choose/repair policy', 'video_presenter':choose_presenter_engine(),
+                'card_ai_ready':image_model_ready()}
 
     def produce(run,parent):
         with worker_lock:
@@ -97,12 +100,23 @@ def create_app(db_path: str | Path | None = None, output_root: str | Path | None
             try:
                 emit('production','Local worker started.')
                 if run.design:
-                    run.outputs=generate_card(run.design.specification,outputs/run.id)
+                    folder=outputs/run.id
+                    artwork,run.generation=prepare_card_art(run,parent,folder,outputs/parent.id if parent else None,emit)
+                    if artwork:
+                        run.outputs=generate_card(run.design.specification,folder,artwork)
+                        run.generation['description']='Local AI artwork: DreamShaper 8, with the official supplied card frame.'
+                        run.outputs.append('artwork.png')
+                    else:
+                        run.outputs=generate_card(run.design.specification,folder)
+                        run.generation['description']='Procedural fallback. '+run.generation['reason']
+                    (folder/'generation.json').write_text(json.dumps(run.generation,indent=2,ensure_ascii=False),encoding='utf8')
+                    run.outputs.append('generation.json')
                     emit('validation','Three PNGs decoded; exact names, dimensions, transparency and opaque frame preservation verified.')
                 else:
                     previous=parent if run.route.intent=='revision' else None
                     run.outputs=run_agent(run.video_plan,outputs/run.id,emit,
                         outputs/previous.id if previous else None,previous.video_plan if previous else None)
+                    run.generation=json.loads((outputs/run.id/'generation.json').read_text(encoding='utf8'))
                 run.status='completed'
                 run.message='Production complete. Actual files passed validation; previews and downloads are available.'
                 emit('completed',run.message)
@@ -130,8 +144,8 @@ def create_app(db_path: str | Path | None = None, output_root: str | Path | None
         parent = get_run(request.parent_id) if request.parent_id else None
         route = route_prompt(prompt, parent.route.target if parent else None)
         now = datetime.now(timezone.utc).isoformat()
-        status = 'needs_clarification' if route.intent == 'clarification' else 'not_implemented'
-        message = route.reason if status == 'needs_clarification' else f'{route.target.title()} production is not implemented yet. Your brief and context are saved; no output was generated.'
+        status = 'needs_clarification' if route.intent == 'clarification' else 'processing'
+        message = route.reason if status == 'needs_clarification' else 'Local production queued.'
         design = None
         if route.target == 'card':
             if route.intent == 'revision' and (not parent or not parent.design):
@@ -174,6 +188,8 @@ def create_app(db_path: str | Path | None = None, output_root: str | Path | None
         path=(outputs/run.id/relative).resolve()
         if not path.is_relative_to((outputs/run.id).resolve()) or not path.is_file():
             raise HTTPException(404,'Output not found')
+        if name.endswith('.zip'):
+            return FileResponse(path,filename=path.name,media_type='application/zip',content_disposition_type='attachment',headers={'Cache-Control':'no-store'})
         return FileResponse(path,filename=path.name,content_disposition_type='inline')
 
     # Deliberate allowlist: never expose the complete proprietary asset directory.

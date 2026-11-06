@@ -1,2 +1,3 @@
 import { defineConfig } from 'vite';
-export default defineConfig({ server: { port: 5173, strictPort: true, proxy: { '/api': 'http://127.0.0.1:8000' } }, preview: { proxy: { '/api': 'http://127.0.0.1:8000' } } });
+const backend = process.env.PROMPTELIER_BACKEND_URL || 'http://127.0.0.1:8002';
+export default defineConfig({ server: { port: 5173, strictPort: true, proxy: { '/api': backend } }, preview: { proxy: { '/api': backend } } });

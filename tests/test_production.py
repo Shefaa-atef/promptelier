@@ -10,7 +10,7 @@ from PIL import Image, ImageChops
 from backend.cards.render import DELIVERY, generate_card, validate_delivery
 from backend.cards.specification import RuleSpecificationProvider
 from backend.main import create_app
-from backend.test_app import wait_run
+from tests.test_app import wait_run
 from backend.video import plan_video, run_agent
 
 

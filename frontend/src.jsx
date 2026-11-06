@@ -103,7 +103,7 @@ function App() {
       {selected && <section className="result" aria-label="Your result" aria-live="polite">
         {completed ? <>
           <div className="result-toolbar"><span className="result-label">{isVideo ? 'Your video' : 'Your card'}</span>
-            <a className="download-button" href={fileUrl(selected, isVideo ? 'video.mp4' : 'cards.zip')} download>Download {isVideo ? 'video' : 'ZIP'} <span aria-hidden="true">↓</span></a>
+            <a className="download-button" href={fileUrl(selected, isVideo ? 'video.mp4' : 'cards.zip') + (isVideo ? '' : '?download=1')} download>Download {isVideo ? 'video' : 'ZIP'} <span aria-hidden="true">↓</span></a>
           </div>
           {!isVideo && <div className="preview-tabs" role="tablist" aria-label="Preview format">{previewChoices.map(([name, label]) =>
             <button key={name} role="tab" aria-selected={preview === name} onClick={() => setPreview(name)}>{label}</button>)}</div>}
@@ -115,12 +115,12 @@ function App() {
             {!isVideo && <a href={fileUrl(selected, preview)} download>Download PNG ↓</a>}
           </div>
         </> : <div className="status-message" role="status">
-          {selected.status === 'processing' ? <><span className="spinner"/><h2>Creating your {isVideo ? 'video' : 'card'}…</h2><p>You can leave this open while it finishes.</p></> :
+          {selected.status === 'processing' ? <><span className="spinner"/><h2>Creating your {isVideo ? 'video' : 'card'}…</h2><p>{selected.events.at(-1)?.message ?? 'Waiting for the local worker.'}</p></> :
             <><h2>{selected.status === 'failed' ? 'This attempt failed.' : selected.status === 'needs_clarification' ? 'A little more detail.' : 'Saved brief'}</h2><p>{selected.message}</p></>}
         </div>}
         <details className="work-details"><summary>Work details</summary>
           <p className="saved-prompt" dir="auto">{selected.prompt}</p>
-          <p className="method-note">{isVideo ? 'Current video method: illustrated host and offline synthetic voice. Arabic speech is robotic.' : 'Current card method: procedural illustration using the supplied frames.'}</p>
+          <p className="method-note">{selected.generation?.description ?? (selected.status === 'processing' ? (selected.video_plan?.presenter_engine === 'sadtalker' ? 'Generating a realistic fictional talking presenter locally.' : 'Generation in progress; the final method will be recorded here.') : (isVideo ? 'Earlier video method: illustrated host and offline synthetic voice.' : 'Procedural illustration using the supplied frames.'))}</p>
           <div className="detail-links"><a href={`/api/runs/${selected.id}/download`} download>Download execution log</a>
             {completed && selected.outputs.filter(name => name.endsWith('.json')).map(name => <a href={fileUrl(selected, name)} key={name} download>{name}</a>)}
           </div>

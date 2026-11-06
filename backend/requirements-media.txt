@@ -1,0 +1,26 @@
+# Install the CUDA wheels separately using the official cu126 index first.
+# These are optional model tools, isolated from FastAPI in .venv-media.
+torch==2.8.0
+torchvision==0.23.0
+numpy==2.2.6
+diffusers==0.35.1
+transformers==4.55.4
+accelerate==1.10.1
+safetensors==0.6.2
+scipy==1.16.3
+librosa==0.11.0
+numba==0.61.2
+scikit-image==0.25.2
+kornia==0.6.8
+yacs==0.1.8
+PyYAML>=6,<7
+joblib>=1.4,<2
+opencv-python==4.12.0.88
+imageio>=2.37,<3
+imageio-ffmpeg>=0.6,<1
+tqdm>=4.67,<5
+pydub==0.25.1
+audioop-lts>=0.2,<1
+facexlib==0.3.0
+# SadTalker's optional GFPGAN restoration is disabled; it requires incompatible
+# legacy BasicSR packaging on Python 3.13. Native 512px face animation is used.

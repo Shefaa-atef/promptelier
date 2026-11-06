@@ -1,3 +1,5 @@
+Historical proposal, superseded by [current project status](../PROJECT_PLAN.md).
+
 # Delivery status — 6 November 2026
 
 Card production milestones are implemented using direct Pillow rendering instead of the proposed SVG intermediary. See PROJECT_PLAN.md and IMPLEMENTATION_NOTES.md for actual acceptance evidence and remaining visual/template limitations. The plan below is the original proposal, not a claim that every proposed aesthetic feature is complete.

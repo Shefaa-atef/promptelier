@@ -209,10 +209,10 @@ class RuleSpecificationProvider:
                 if not color_only and not contains(text, r'no metallic|non metallic|matte'):
                     assign('surface.metallic', 'silver' if name == 'silver' else 'gold')
         if not parent:
-            warnings.append('Unspecified settings use documented studio defaults; this is rule-based interpretation, not AI image generation.')
+            warnings.append('Design settings use rule-based interpretation and studio defaults. The separate artwork renderer records whether it uses local AI or the procedural fallback.')
         if not touched:
             warnings.append('No supported design changes recognized. Try a palette, motif, density, or surface instruction.')
-        warnings.append('Free-form details outside the supported vocabulary may be ignored; inspect the specification before rendering.')
+        warnings.append('The procedural fallback has a limited motif vocabulary. The AI renderer also receives the original brief, subject to its text-model length limit.')
         spec = DesignSpec.model_validate(data)
         changed = []
         def diff(a, b, prefix=''):

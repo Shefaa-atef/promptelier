@@ -7,3 +7,4 @@ pyttsx3>=2.99,<3; sys_platform == "win32"
 espeakng-loader>=0.2.4,<0.3
 arabic-reshaper>=3,<4
 python-bidi>=0.6,<1
+piper-tts==1.8.0

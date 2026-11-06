@@ -6,7 +6,7 @@ import random
 import zipfile
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageColor, ImageDraw
+from PIL import Image, ImageChops, ImageColor, ImageDraw, ImageOps
 
 ROOT = Path(__file__).resolve().parents[2]
 MATERIAL = ROOT / 'task material'
@@ -133,12 +133,19 @@ def validate_delivery(folder):
     return report
 
 
-def generate_card(spec, folder):
+def generate_card(spec, folder, artwork_path=None):
     folder.mkdir(parents=True,exist_ok=True)
     frame=Image.open(asset('Cardback-p2.png' if spec.tier=='premium' else 'Cardback-n1.png')).convert('RGBA')
     mask=frame_mask(frame)
+    generated=None
+    if artwork_path:
+        bounds=mask.getbbox()
+        generated=Image.new('RGBA',frame.size)
+        with Image.open(artwork_path) as original:
+            fitted=ImageOps.fit(original.convert('RGBA'),(bounds[2]-bounds[0],bounds[3]-bounds[1]),Image.Resampling.LANCZOS)
+            generated.paste(fitted,(bounds[0],bounds[1]))
     def compose(simple=False):
-        art=artwork(spec,simplified=simple).resize((250,346),Image.Resampling.LANCZOS)
+        art=(generated if generated is not None else artwork(spec,simplified=simple)).resize((250,346),Image.Resampling.LANCZOS)
         art.putalpha(mask)
         return Image.alpha_composite(art,frame)
     card=compose()

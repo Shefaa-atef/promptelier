@@ -1,3 +1,7 @@
+# Current status
+
+The staged audit below is historical. Originals remain in `task material/`; all 85 hashes were reverified after the quality upgrade. Current production uses local DreamShaper/ControlNet, Piper, and SadTalker; Baloot footage is selected at 118/124/130/136 seconds. See [implementation notes](IMPLEMENTATION_NOTES.md) for final tools and evidence. Earlier statements about unavailable tools or no AI model describe earlier stages only.
+
 # Promptelier — asset audit
 
 Audited 6 November 2026. Originals remain unchanged under `task material/`. No working copies are needed in Phase 1. `asset_inventory.json` records every file, byte count, SHA-256, and PNG dimensions/mode/alpha. `asset_contact_sheet.png` is a derived visual inspection sheet; both contain proprietary information and are ignored by Git.
