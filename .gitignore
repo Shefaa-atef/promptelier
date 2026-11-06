@@ -10,3 +10,5 @@ data/
 outputs/
 .env
 *.log
+.playwright-cli/
+output/

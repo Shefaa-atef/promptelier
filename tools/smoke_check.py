@@ -5,7 +5,7 @@ for endpoint in ['/', '/api/health','/api/references/premium','/api/references/p
  with urllib.request.urlopen(base+endpoint) as r: print(endpoint,r.status,r.headers.get('Content-Type'),len(r.read()))
 req=urllib.request.Request(base+'/api/runs',data=json.dumps({'prompt':'Create a premium Ramadan card with gold decorations.'}).encode(),headers={'Content-Type':'application/json'})
 with urllib.request.urlopen(req) as r:
- run=json.load(r); print('live submit',r.status,run['route']['intent'],run['status']); assert run['outputs']==[]
+ run=json.load(r); print('live submit',r.status,run['route']['intent'],run['status']); assert run['status'] in ('processing','completed')
 req=urllib.request.Request(base+'/api/runs',data=json.dumps({'prompt':'Make the previous card blue instead of green.','parent_id':run['id']}).encode(),headers={'Content-Type':'application/json'})
 with urllib.request.urlopen(req) as r:
  revision=json.load(r); assert revision['route']['intent']=='revision'; print('live revision',r.status,revision['parent_id'])

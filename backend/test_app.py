@@ -1,3 +1,4 @@
+import time
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import create_app
@@ -23,22 +24,34 @@ def test_router(prompt, context, intent, target):
     assert (result.intent, result.target) == (intent,target)
 
 
+def wait_run(client, run, timeout=90):
+    deadline=time.monotonic()+timeout
+    while run['status']=='processing' and time.monotonic()<deadline:
+        time.sleep(.1)
+        run=client.get(f"/api/runs/{run['id']}").json()
+    assert run['status']!='processing', 'Production timed out'
+    return run
+
+
 def test_api_and_persistence(tmp_path):
     path = tmp_path / 'runs.db'
-    with TestClient(create_app(path)) as client:
-        assert client.get('/api/health').json()['generation_available'] is False
+    with TestClient(create_app(path,tmp_path/'outputs')) as client:
+        assert client.get('/api/health').json()['generation_available'] is True
         first = client.post('/api/runs', json={'prompt':'Create a gold card'}).json()
-        assert first['status'] == 'not_implemented' and first['outputs'] == []
+        first=wait_run(client,first)
+        assert first['status'] == 'completed' and 'cards.zip' in first['outputs']
         revision = client.post('/api/runs',json={'prompt':'Make it blue','parent_id':first['id']}).json()
+        revision=wait_run(client,revision)
         assert revision['route']['intent'] == 'revision'
         assert revision['parent_id'] == first['id']
-        assert len(revision['events']) == 4
+        assert any(e['stage'] == 'specification' for e in revision['events'])
+        assert revision['design']['specification']['palette']['background'] != first['design']['specification']['palette']['background']
         assert client.post('/api/runs',json={'prompt':'   '}).status_code == 422
         assert client.post('/api/runs',json={'prompt':'x'*4001}).status_code == 422
         assert client.post('/api/runs',json={'prompt':'a card','parent_id':'missing'}).status_code == 404
         assert client.get('/api/references/secret').status_code == 404
         assert client.get('/api/runs/missing/download').status_code == 404
         assert client.get(f"/api/runs/{first['id']}/download").json()['id'] == first['id']
-    with TestClient(create_app(path)) as restarted:
+    with TestClient(create_app(path,tmp_path/'outputs')) as restarted:
         assert len(restarted.get('/api/runs').json()) == 2
         assert restarted.get(f"/api/runs/{first['id']}").json() == first

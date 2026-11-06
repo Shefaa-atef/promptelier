@@ -1,4 +1,4 @@
-﻿# Promptelier — asset audit
+# Promptelier — asset audit
 
 Audited 6 November 2026. Originals remain unchanged under `task material/`. No working copies are needed in Phase 1. `asset_inventory.json` records every file, byte count, SHA-256, and PNG dimensions/mode/alpha. `asset_contact_sheet.png` is a derived visual inspection sheet; both contain proprietary information and are ignored by Git.
 
@@ -38,3 +38,19 @@ Delivery contract: `Source/b.png` 250 × 346 PNG; `cardPreview.png` 208 × 261 P
 - Local image/video model hardware suitability is unassessed. No model downloads or cloud integrations are needed for Phase 1.
 
 Audit tooling uses existing local Pillow and pypdf. Optional reproducibility dependencies: `python -m pip install Pillow pypdf`; then `python tools/audit_assets.py`. The tool writes only derived inventory and contact sheet, and never modifies originals.
+
+## Phase 2 reinspection (6 November 2026)
+
+Both original frames were viewed on a contrasting background with the default back, a supplied king face, preview, and icon. Alpha bounds use Pillow's exclusive right/bottom coordinates: normal `(1,5,242,344)`, premium `(1,6,242,345)`. Centers are fully transparent. They are not centered generic rounded rectangles; native offsets must be preserved during assembly. Default back bounds `(0,5,242,344)`; preview bounds `(0,25,208,242)`.
+
+No separately named **Default Deck** was found recursively. The 52 faces plus `source/b.png` are the working default-deck candidate, not a confirmed alternative asset package. Store preview visibly uses a king of clubs; use the matching original `source/kc.png` when resolving exact preview placement in 2.3. The inspection sheet also includes `ks.png` as a card-face transparency example, not the claimed preview face.
+
+PDF-level inspection of the original AI found image XObjects on every page (counts 1/3/1/1/5/3) plus actual vector path commands. The preview pages contain king text. This establishes mixed vector/raster PDF content, not editability of Adobe layers. Exact placement and normal/premium artboard pairing will be resolved during template assembly. No manual Illustrator export is required for 2.1. Original exports and templates were not modified.
+
+## Production implementation update — 6 November 2026
+
+Original assets remain private and read-only. The production renderer uses native normal/premium frame PNGs, flood-fills only the exterior, fills the enclosed center, and verifies every opaque frame pixel after composition. Preview assembly uses the original `kc.png`; 208×261 placement recreates the supplied overlapping-card layout, without claiming exact Illustrator vector/pixel equivalence. Export dimensions/casing and alpha are validated automatically. No manual Illustrator export was needed for this local PNG workflow.
+
+FFmpeg is now available through the local imageio-ffmpeg wheel. Actual supplied gameplay: 247.32 seconds, 890×1914 H.264, 60fps, no audio stream. Inspection of samples at 10/40/80/120/180/220 seconds identified menus/ads in earlier intervals and visible table play near 120 and 220 seconds; production selects table-play intervals. The supplied WebM end card is not used; a local branded CTA is generated with the original logo.
+
+Arabic speech is generated with portable eSpeak NG; English uses installed Windows voices. The Alexandria font remains local for captions. Font/asset public redistribution rights remain unverified, so originals and derived media stay ignored and local. No large AI model was downloaded. About 25.6GB RAM was detected; no usable GPU was reported by the environment's controller inventory. CPU-only tools were selected for reproducibility.
