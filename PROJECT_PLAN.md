@@ -9,7 +9,7 @@ Updated 6 November 2026. All work remains local and free. Core end-to-end delive
 | 2 Card production | Original Pillow renderer, official normal/premium frames, exact three PNGs, ZIP, validation, previews and scoped revisions implemented. Two distinct designs visually inspected. Direct PNG rendering replaces the originally proposed SVG intermediary to reduce dependencies. |
 | 3 Video production | Real local 15–30s 540×960 MP4 with supplied gameplay, fictional illustrated host, English/Arabic offline speech, captions and CTA implemented. Arabic uses portable eSpeak NG rather than a large neural model. |
 | 4 Video agent | Bounded symbolic state-based policy chooses inspect, synthesize, render, reuse, repair and assemble. Actual injected-failure recovery and hook-only reuse tests pass. No LLM or general reasoning model is claimed. |
-| 5 Submission | Setup, locks, tests, examples, interview notes and five-minute demo instructions implemented. Final commit/push and verification recorded below when complete. |
+| 5 Submission | Setup, locks, tests, examples, interview notes and five-minute demo instructions implemented. Source release committed and pushed to the verified private GitHub repository. |
 
 ## Architecture and operational choices
 
@@ -33,4 +33,4 @@ Video uses four scene goals and FFmpeg, provided by the imageio-ffmpeg wheel. Th
 
 ## Release verification
 
-Final backend suite: 30 passed in 89.13s; frontend build passed. Actual browser MP4 playback succeeded and advanced. Desktop and 390px mobile layouts were inspected; no horizontal overflow at 390px. Two cards and their palette revision plus Arabic video and hook revision are available in local history and `outputs/examples.json`. All advertised files were downloaded through the real HTTP routes. All 85 original hashes are unchanged. Source is prepared for commit/push to the verified private GitHub repository; proprietary originals and derived media are excluded.
+Final backend suite: 30 passed in 89.13s; frontend build passed. Actual browser MP4 playback succeeded and advanced. Desktop and 390px mobile layouts were inspected; no horizontal overflow at 390px. Two cards and their palette revision plus Arabic video and hook revision are available in local history and `outputs/examples.json`. All advertised files were downloaded through the real HTTP routes. All 85 original hashes are unchanged. Source release `3296343` was committed and pushed to the verified private GitHub repository. Proprietary originals and derived media are excluded.

@@ -59,3 +59,5 @@ This is a single-user local app with one backend process. Jobs cannot resume aft
 ## Final browser and release checks
 
 Browser playback succeeded: readyState 4, paused=false, 20.02322s, decoded 540×960, and playback time advanced. At a 390px viewport, document width was also 390px: no horizontal overflow. Desktop and mobile views were captured and visually inspected. Card ZIP clicking initiated the download. Final backend verification passed all 30 tests in 89.13s; final frontend build passed. The private GitHub repository was verified through its API using the existing Git credentials; the connected GitHub app did not have access to this repository, so release uses the existing Git remote.
+
+Source release `3296343` was pushed successfully to private `Shefaa-atef/promptelier` on `main`. Documentation release details follow in Git history.
