@@ -1,5 +1,7 @@
 # Promptelier
 
+**Quality correction in progress:** the initial card artwork and video presenter were rejected as below the required creative standard. Functional file validation is complete, but media quality is not accepted. The interface has been simplified to one prompt, one result, and downloads; history and technical records are behind explicit controls.
+
 A free local creative production studio: React + FastAPI + SQLite, original procedural card artwork, and 15–30-second vertical video advertisements with a fictional illustrated presenter, offline voice, gameplay, captions and CTA. Production runs asynchronously; the UI polls real persisted status and exposes files only after validation.
 
 No paid APIs, cloud accounts, GPU, diffusion model or LLM is required. The video controller is a bounded symbolic agent that inspects state, chooses tools, validates results, reuses unaffected scenes and repairs failures. Its decision policy and script vocabulary are deliberately limited and inspectable.
@@ -35,11 +37,11 @@ Optional environment variables are documented in `.env.example`: `PROMPTELIER_DB
 
 ## Generate and revise
 
-- Click either card example, then **Generate asset**. A new run stores a validated design specification, renders artwork, composes official frames, validates exports and creates the ZIP.
+- Click either card example, then **Create**. A new run stores a validated design specification, renders artwork, composes official frames, validates exports and creates the ZIP.
 - With the card selected, submit `Change only the colors to purple and silver`. Palette changes preserve specification geometry and seed; old files remain unchanged.
 - Click the Arabic video example and generate. Choose 15–30 seconds in English, such as `Create a 20-second Arabic UGC video for VIP Baloot`. With no duration, the default is 20 seconds. English narration is also supported.
 - With a completed video selected, submit `Change only the opening hook to "جاهز لتحدي بلوت جديد؟"`. Quotes supply exact hook text; without quotes the agent uses its alternative hook. The other three scene MP4s are reused after decoding and hash checks.
-- Use **New brief** to clear revision context. Use **Run history** to select earlier results. Expand execution logs to see actual decisions and failures.
+- Use **Start something new** to clear revision context. Use **Recent work** to select earlier results. Open Work details to inspect execution logs and design specifications.
 
 Card delivery ZIP contains exactly:
 

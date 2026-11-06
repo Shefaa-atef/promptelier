@@ -1,3 +1,13 @@
+# Quality correction — reopened
+
+The user rejected the initial artwork, presenter, and overloaded website. Functional tests did not establish acceptable creative quality. The earlier completion claims below describe file-level functionality only; media quality is not accepted.
+
+Current corrections: replace the crowded dashboard with one prompt, one result, and primary downloads; move history and technical records behind explicit controls. Reassess image/video generation rather than presenting basic procedural drawings and a placeholder cartoon as finished creative work.
+
+Hardware correction: nvidia-smi confirms an NVIDIA GTX 1660 SUPER with 6144 MiB VRAM. Earlier documentation saying no usable GPU was reported was an incorrect assessment.
+
+---
+
 # Promptelier project plan
 
 Updated 6 November 2026. All work remains local and free. Core end-to-end delivery is implemented, with the explicit fallback limits below. The original Phase 2 plan is retained in `PHASE_2_PLAN.md` as historical acceptance guidance.

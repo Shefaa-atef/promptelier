@@ -40,7 +40,7 @@ Hook revisions copy the validated parent plan and replace only hook text. Other 
 
 There is no diffusion model, photorealistic or neural talking head, word-level lip synchronization, or LLM scriptwriter. Arabic speech is robotic; no native-speaker auditory quality review has been completed. Captions are scene-aligned. Card motifs/script language are limited; video supports requested duration/language and quoted custom hooks. Other free-form video instructions are not interpreted. Unknown card details produce compiler warnings.
 
-The initial renderer does not fully realize all schema-level lighting/material/symmetry controls. Store-preview placement follows the supplied visual layout but is not certified pixel-identical to Illustrator vectors. The original premium frame remains gold even for a silver artwork palette. Large-model hardware suitability is not established: about 25.6GB RAM was detected and the GPU inventory returned no usable adapter, so this delivery uses portable CPU tools.
+The initial renderer does not fully realize all schema-level lighting/material/symmetry controls. Store-preview placement follows the supplied visual layout but is not certified pixel-identical to Illustrator vectors. The original premium frame remains gold even for a silver artwork palette. Large-model hardware suitability is not established: about 25.6GB RAM was detected; a subsequent hardware check confirmed a GTX 1660 SUPER with 6144 MiB VRAM, correcting the earlier mistaken GPU assessment, so this delivery uses portable CPU tools.
 
 This is a single-user local app with one backend process. Jobs cannot resume after a crash, no cancellation UI exists, media retention is manual, and authentication/multi-user hosting are out of scope. Proprietary assets and font remain local; public redistribution rights are unverified. Keep the GitHub repository private.
 
@@ -61,3 +61,11 @@ This is a single-user local app with one backend process. Jobs cannot resume aft
 Browser playback succeeded: readyState 4, paused=false, 20.02322s, decoded 540×960, and playback time advanced. At a 390px viewport, document width was also 390px: no horizontal overflow. Desktop and mobile views were captured and visually inspected. Card ZIP clicking initiated the download. Final backend verification passed all 30 tests in 89.13s; final frontend build passed. The private GitHub repository was verified through its API using the existing Git credentials; the connected GitHub app did not have access to this repository, so release uses the existing Git remote.
 
 Source release `3296343` was pushed successfully to private `Shefaa-atef/promptelier` on `main`. Documentation release details follow in Git history.
+
+## User quality review and interface correction
+
+The user rejected the initial media quality and crowded interface. Passing file tests did not establish acceptable visual quality; the initial completion assessment was too strong. Media quality work is reopened.
+
+The redesigned UI removes the sidebar, permanent reference preview, dashboard headings, badges, specification panel and repeated output previews. The initial screen contains one prompt and Create button. Results show one preview with format switches and the primary ZIP/video download. History is a native modal dialog; specifications and logs are collapsed under Work details. Frontend build passed. Browser checks covered recent-work selection, preview switching, desktop screenshots and 390px layout with no horizontal overflow and all technical details closed by default.
+
+`nvidia-smi` now confirms a GTX 1660 SUPER with 6144 MiB VRAM, so the prior no-GPU assessment was wrong. No replacement neural media engine is installed or claimed by this UI correction.

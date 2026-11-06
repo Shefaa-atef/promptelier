@@ -16,13 +16,13 @@ State the zero-cost choices: original procedural card drawing, FFmpeg video edit
 
 ## 0:45–1:45 — Card production
 
-Choose the Ramadan card example and Generate asset. Explain that a validated design specification describes palette and motifs; Pillow draws original artwork and overlays the official supplied frame. Show all three PNG previews and download `cards.zip`.
+Choose the Ramadan card example and Create. Explain that a validated design specification describes palette and motifs; Pillow draws original artwork and overlays the official supplied frame. Show all three PNG previews and download `cards.zip`.
 
-Open the ZIP and show exactly `Source/b.png` (250×346), `cardPreview.png` (208×261), and `Symbols/cardIcon.png` (46×64). Show the botanical example from history to demonstrate a different focal motif and geometry, not just recoloring.
+Open the ZIP and show exactly `Source/b.png` (250×346), `cardPreview.png` (208×261), and `Symbols/cardIcon.png` (46×64). Show the botanical example from Recent work to demonstrate a different focal motif and geometry, not just recoloring.
 
 ## 1:45–2:30 — Targeted card revision
 
-Select a Ramadan result and submit `Change only the colors to purple and silver`. Explain that the immutable parent specification is copied and only palette fields are patched. Geometry and seed remain the same; the supplied premium frame remains gold because original frame pixels are preserved. Open the parent from history to show it still exists unchanged.
+Select a Ramadan result and submit `Change only the colors to purple and silver`. Explain that the immutable parent specification is copied and only palette fields are patched. Geometry and seed remain the same; the supplied premium frame remains gold because original frame pixels are preserved. Open the parent from Recent work to show it still exists unchanged.
 
 ## 2:30–3:30 — Real Arabic video
 
@@ -32,7 +32,7 @@ Be candid: this is an illustrated local presenter with simple mouth animation. A
 
 ## 3:30–4:30 — Agent and hook revision
 
-Select the hook-revision result, or submit `Change only the opening hook to "جاهز لتحدي بلوت جديد؟"` with the video selected. Open its execution log and `decisions.json`.
+Select the hook-revision result, or submit `Change only the opening hook to "جاهز لتحدي بلوت جديد؟"` with the video selected. Open Work details and its execution log and `decisions.json`.
 
 Explain the decisions: inspect source; identify unmet scene goals; generate missing voice and inspect its duration; render/decode a scene; retry failure with a bounded budget; reuse matching verified parent clips; assemble only after scene goals pass. The revision generates one new hook and reuses gameplay/challenge/CTA scenes. Show `reused_scenes` in validation. Automated tests prove these scene bytes match their parent and prove injected-failure recovery.
 
