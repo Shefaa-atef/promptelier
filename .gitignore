@@ -1,0 +1,12 @@
+task material/
+asset_contact_sheet.png
+asset_inventory.json
+.venv/
+node_modules/
+dist/
+__pycache__/
+.pytest_cache/
+data/
+outputs/
+.env
+*.log
